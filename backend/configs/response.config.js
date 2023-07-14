@@ -5,12 +5,15 @@ const responseList = {
     SUCCESS: "Request successfully completed",
     DELETED_SUCCESS: "Deleted successfully!",
     DELETED_FAILED: "Failed to delete!",
-    USER_PASSWORD_ERROR: "User and/or password is incorrect!",
-    DUPLICATE_USERNAME_EMAIL: "Username or email is duplicate",
-    MISSING_USERNAME_PASSWORD: "Missing username or password in body",
+    EMAIL_PASSWORD_ERROR: "Email and/or password is incorrect!",
+    DUPLICATE_EMAIL: "Email already taken",
+    MISSING_EMAIL_PASSWORD: "Missing email or password in body",
     MISSING_TOKEN: "Missing token in header",
     VALID_TOKEN: "Token is valid",
     INVALID_TOKEN: "Invalid token",
+    TENANT_NOT_FOUND: "Tenant not found",
+    EMAIL_NOT_FOUND: "User with the email not found",
+    MISSING_PERMISSION: "Missing required permission",
     SOMETHING_WRONG: "Something went wrong",
 }
 

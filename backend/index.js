@@ -7,6 +7,7 @@ const dotenv = require('dotenv')
 
 // import controllers
 const tenantController = require('./controllers/tenant.controller')
+const userController = require('./controllers/user.controller')
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -17,6 +18,7 @@ server.use(morgan('dev'))
 
 // use controllers
 server.use('/api/tenant', tenantController)
+server.use('/api/user', userController)
 
 // Run backend
 server.listen(PORT, () => console.log(`Running on port ${PORT}`))

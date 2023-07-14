@@ -5,17 +5,17 @@ const responseList = require('../configs/response.config')
 router.post('/', async (req, res) => {
 
     const checkRequiredFields = () => {
-        ['name', 'companyName', 'address', 'companyContactNo', 'firstName', 'lastName', 'email', 'password'].forEach(field => {
-            if(!req.body[field]) {
+        return ['name', 'companyName', 'address', 'companyContactNo', 'firstName', 'lastName', 'email', 'password'].reduce((t, c) => {
+            if(!req.body[c] || !t) {
                 return false
             }
-        })
+            return true
+        }, true)
     }
 
     if (!checkRequiredFields()) {
         return res.status(400).json({message: responseList.BAD_REQUEST})
     }
-
     try {
         const tenantDB = await switchTenantDB()
         const TenantModel = await getDBModel(tenantDB, 'Tenant')
@@ -36,6 +36,7 @@ router.post('/', async (req, res) => {
             contactNo: req.body.contactNo,
             password: req.body.password,
             isVerified: true,
+            role: 'admin',
         })
         await firstUser.save()
 

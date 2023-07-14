@@ -25,6 +25,11 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user',
+    },
     reportTo: {
         type: mongoose.ObjectId,
         ref: 'Úser',
