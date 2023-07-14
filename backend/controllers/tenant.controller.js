@@ -1,19 +1,10 @@
 const router = require('express').Router()
 const {switchTenantDB, switchCustomerDB, getDBModel} = require('../services/mongo.service')
+const validateRequiredFields = require('../services/validateRequiredFields.service')
 const responseList = require('../configs/response.config')
 
 router.post('/', async (req, res) => {
-
-    const checkRequiredFields = () => {
-        return ['name', 'companyName', 'address', 'companyContactNo', 'firstName', 'lastName', 'email', 'password'].reduce((t, c) => {
-            if(!req.body[c] || !t) {
-                return false
-            }
-            return true
-        }, true)
-    }
-
-    if (!checkRequiredFields()) {
+    if (!validateRequiredFields(req.body, ['name', 'companyName', 'address', 'companyContactNo', 'firstName', 'lastName', 'email', 'password'])) {
         return res.status(400).json({message: responseList.BAD_REQUEST})
     }
     try {

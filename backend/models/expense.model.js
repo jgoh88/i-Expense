@@ -10,6 +10,10 @@ const expenseSchema = mongoose.Schema({
         enum: ['draft', 'submitted', 'approved', 'rejected', 'paid'],
         default: 'draft',
     },
+    deleted: {
+        type: Boolean,
+        default: false,
+    },
     createdBy: {
         type: mongoose.ObjectId,
         ref: 'Úser',

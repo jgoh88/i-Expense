@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
 const {switchTenantDB, switchCustomerDB, getDBModel} = require('../services/mongo.service')
 const {authenticateUser, authenticateAdmin} = require('../middlewares/auth.middleware')
+const validateRequiredFields = require('../services/validateRequiredFields.service')
 const responseList = require('../configs/response.config')
 
 dotenv.config()
@@ -13,16 +14,7 @@ router.get('/', authenticateUser, async (req, res) => {
 })
 
 router.post('/', [authenticateUser, authenticateAdmin], async (req, res) => {
-    const checkRequiredFields = () => {
-        return ['firstName', 'lastName', 'email'].reduce((t, c) => {
-            if(!req.body[c] || !t) {
-                return false
-            }
-            return true
-        }, true)
-    }
-
-    if (!req.body || !checkRequiredFields()) {
+    if (!req.body || !validateRequiredFields(req.body, ['firstName', 'lastName', 'email'])) {
         return res.status(400).json({message: responseList.BAD_REQUEST})
     }
     try {
@@ -58,7 +50,7 @@ router.put('/', [authenticateUser, authenticateAdmin], async (req, res) => {
 })
 
 router.get('/login', async (req, res) => {
-    if (!req.body || !req.body.tenantName || !req.body.email) {
+    if (!req.body || !validateRequiredFields(req.body, ['tenantName', 'email'])) {
         return res.status(400).json({message: responseList.BAD_REQUEST})
     }
     try {
@@ -85,7 +77,7 @@ router.get('/login', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    if (!req.body || !req.body.tenantName || !req.body.email || !req.body.password) {
+    if (!req.body || !validateRequiredFields(req.body, ['tenantName', 'email', 'password'])) {
         return res.status(400).json({message: responseList.BAD_REQUEST})
     }
     try {
