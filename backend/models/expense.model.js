@@ -16,12 +16,12 @@ const expenseSchema = mongoose.Schema({
     },
     createdBy: {
         type: mongoose.ObjectId,
-        ref: 'Úser',
+        ref: 'User',
         required: true,
     },
     approver: {
         type: mongoose.ObjectId,
-        ref: 'Úser',
+        ref: 'User',
         required: true,
     },
     expenseItems: [

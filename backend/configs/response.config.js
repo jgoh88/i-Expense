@@ -5,7 +5,7 @@ const responseList = {
     SUCCESS: "Request successfully completed",
     DELETED_SUCCESS: "Deleted successfully!",
     DELETED_FAILED: "Failed to delete!",
-    EMAIL_PASSWORD_ERROR: "Email and/or password is incorrect!",
+    EMAIL_PASSWORD_ERROR: "Password is incorrect",
     DUPLICATE_EMAIL: "Email already taken",
     MISSING_EMAIL_PASSWORD: "Missing email or password in body",
     MISSING_APPROVER: "Missing approver for user",

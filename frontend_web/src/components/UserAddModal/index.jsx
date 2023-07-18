@@ -1,0 +1,251 @@
+import { useState } from 'react';
+import { useFormik } from 'formik'
+import axiosBackend from '../../configs/axiosBackend';
+
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import FormHelperText from '@mui/material/FormHelperText';
+
+import Modal from 'react-bootstrap/Modal';
+
+export default function UserAddModal(props) {
+    const [modalShow, setModalShow] = useState(false);
+
+    return (
+        <>
+            <Button
+                variant="contained"
+                onClick={() => setModalShow(true)}
+            >
+                Add user
+            </Button>
+            <ModalForm 
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                users={props.users}
+                token={props.token}
+                onUserAdd={props.onUserAdd}
+            />
+        </>
+    )
+}
+
+function ModalForm(props) {
+    const formik = useFormik({
+        initialValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            contactNo: '',
+            role: 'default',
+            reportTo: 'default',
+        },
+        validate,
+        onSubmit: values => {
+            onSubmitFormHandler(values);
+        },
+    });
+
+    function handleClose() {
+        formik.handleReset()
+        props.onHide()
+    }
+
+    async function onSubmitFormHandler(formValues) {
+        const reqBody = {...formValues}
+        if (formValues.reportTo === 'default') {
+            delete reqBody['reportTo']
+        }
+        try {
+            await axiosBackend.post('/user', reqBody, {
+                headers: {
+                    authorization: `Bearer ${props.token}`
+                }
+            })
+            props.onUserAdd()
+            handleClose()
+        } catch (err) {
+            if (err.response.status === 400 && err.response.data.message === 'Email already taken') {
+                formik.setFieldError('email', 'User with email already exists')
+            }
+            console.log(err)
+        }
+    }
+
+    return (
+        <Modal
+            show={props.show}
+            size="lg"
+            aria-labelledby="add-user-modal"
+            centered
+            onHide={handleClose}
+        >
+            <Modal.Header closeButton style={{ backgroundColor: "#1976d2", color: "#fff" }}>
+                <Modal.Title id="contained-modal-title-vcenter">
+                    <Typography variant={'h6'}>
+                        Add user
+                    </Typography>
+                </Modal.Title>
+            </Modal.Header>
+            <Box component="form" noValidate onSubmit={formik.handleSubmit} sx={{ mt: 3, width: '100%' }}>
+                <Modal.Body>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                autoComplete="given-name"
+                                name="firstName"
+                                required
+                                fullWidth
+                                id="firstName"
+                                label="First Name"
+                                autoFocus
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.firstName}
+                                error={formik.touched.firstName && formik.errors.firstName ? true : false}
+                                helperText={formik.touched.firstName && formik.errors.firstName ? formik.errors.firstName : null}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="family-name"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.lastName}
+                                error={formik.touched.lastName && formik.errors.lastName ? true : false}
+                                helperText={formik.touched.lastName && formik.errors.lastName ? formik.errors.lastName : null}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="email"
+                                label="Email Address"
+                                name="email"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.email}
+                                error={formik.touched.email && formik.errors.email ? true : false}
+                                helperText={formik.touched.email && formik.errors.email ? formik.errors.email : null}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                required
+                                fullWidth
+                                name="contactNo"
+                                label="Contact Number"
+                                id="contactNo"
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.contactNo}
+                                error={formik.touched.contactNo && formik.errors.contactNo ? true : false}
+                                helperText={formik.touched.contactNo && formik.errors.contactNo ? formik.errors.contactNo : null}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl fullWidth>
+                                <InputLabel id="role">Role</InputLabel>
+                                <Select
+                                    name="role"
+                                    id="role"
+                                    value={formik.values.role}
+                                    label="Role"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.role && formik.errors.role ? true : false}
+                                >
+                                    <MenuItem value={'default'} disabled>Select a role *</MenuItem>
+                                    <MenuItem value={'user'}>User</MenuItem>
+                                    <MenuItem value={'admin'}>Admin</MenuItem>
+                                </Select>
+                                <FormHelperText 
+                                    error={formik.touched.role && formik.errors.role ? true : false}
+                                >
+                                    {formik.touched.role && formik.errors.role ? formik.errors.role : null}
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl fullWidth>
+                                <InputLabel id="role">Report to</InputLabel>
+                                <Select
+                                    name="reportTo"
+                                    id="reportTo"
+                                    value={formik.values.reportTo}
+                                    label="Report to"
+                                    onChange={formik.handleChange}
+                                    onBlur={formik.handleBlur}
+                                    error={formik.touched.reportTo && formik.errors.reportTo ? true : false}
+                                >
+                                    <MenuItem value={"default"} disabled>Select the person user will report to for approval of expense</MenuItem>
+                                    {props.users.map((user) => <MenuItem key={user._id} value={user._id}>{user.firstName} {user.lastName}</MenuItem>)}
+                                </Select>
+                                <FormHelperText 
+                                    error={formik.touched.reportTo && formik.errors.reportTo ? true : false}
+                                >
+                                    {formik.touched.reportTo && formik.errors.reportTo ? formik.errors.role : null}
+                                </FormHelperText>
+                            </FormControl>
+                        </Grid>
+                    </Grid>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        type="submit"
+                        variant="contained"
+                    >
+                        Add user
+                    </Button>
+                </Modal.Footer>
+            </Box> 
+        </Modal>
+    );
+}
+
+async function validate(values) {
+    const errors = {};
+
+    if (!values.firstName) {
+        errors.firstName = 'Required';
+    } 
+
+    if (!values.lastName) {
+        errors.lastName = 'Required';
+    }
+
+    if (!values.email) {
+        errors.email = 'Required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+        errors.email = 'Invalid email address';
+    }
+
+    if (!values.contactNo) {
+        errors.contactNo = 'Required';
+    } else if (!/^\+?[0-9-]*$/i.test(values.contactNo)) {
+        errors.contactNo = 'Must contain only number and hyphen';
+    }
+
+    if (values.role === 'default') {
+        errors.role = "Required"
+    }
+
+    // if (values.reportTo === 'default') {
+    //     errors.reportTo = "Required"
+    // }
+
+    return errors
+}

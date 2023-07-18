@@ -27,6 +27,7 @@ async function authenticateUser(req, res, next) {
         if(err instanceof jwt.TokenExpiredError){
             return res.status(401).json({message: responseList.INVALID_TOKEN})
         }
+        console.log(err)
         return res.status(500).json({message: responseList.SOMETHING_WRONG})
     }
 }
