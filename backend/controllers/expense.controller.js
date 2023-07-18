@@ -21,7 +21,7 @@ router.get('/all', [authenticateUser, authenticateAdmin], async (req, res) => {
     try {
         const customerDB = await switchCustomerDB(req.user.tenantName)
         const ExpenseModel = await getDBModel(customerDB, 'Expense')
-        const expenses = await ExpenseModel.find({status: {$in: ['submitted', 'approved', 'paid']}, deleted: false})
+        const expenses = await ExpenseModel.find({status: {$in: ['submitted', 'approved', 'paid']}, deleted: false}).populate('createdBy', 'firstName lastName').populate('approver', 'firstName lastName')
         return res.status(200).json({message: responseList.SUCCESS, expenses: expenses})
     } catch (err) {
         console.log(err)
@@ -53,17 +53,15 @@ router.post('/', authenticateUser, async (req, res) => {
 })
 
 router.put('/', authenticateUser, async (req, res) => {
-    if (!req.body || !req.body.id || !mongoose.isObjectIdOrHexString(req.body?.id)) {
+    if (!req.body || !req.body.id || !mongoose.isObjectIdOrHexString(req.body?.id) || !req.body?.data) {
         return res.status(400).json({message: responseList.BAD_REQUEST})
     }
     try {
         const customerDB = await switchCustomerDB(req.user.tenantName)
         const ExpenseModel = await getDBModel(customerDB, 'Expense')
-        console.log(req.body)
         const updatedExpense = await ExpenseModel.findByIdAndUpdate(req.body.id, {
             $set: {...req.body.data}
         })
-        console.log(updatedExpense)
         return res.status(200).json({message: responseList.SUCCESS})
     } catch (err) {
         console.log(err)
