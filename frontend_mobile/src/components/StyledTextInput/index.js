@@ -25,9 +25,10 @@ export default function StyledTextInput({icon, error, helperText, style, ...othe
                     />
                 </View>
             </View>
-            <View style={tailwind('ml-3')}>
+            {helperText && <View style={tailwind('ml-3')}>
                 <Text style={[tailwind('text-xs'), {color: validationColor}]}>{helperText}</Text>
-            </View>
+            </View> 
+            }    
         </View>
 
     )

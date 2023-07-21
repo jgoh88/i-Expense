@@ -6,17 +6,17 @@ import { useUserHook } from "@/src/hooks/useUserHook";
 import axiosBackend from '@/src/configs/axiosBackend';
 
 import { MaterialIcons as Icon } from '@expo/vector-icons'; 
-import { Pressable, Text, View, TouchableOpacity, } from "react-native";
+import { Pressable, Text, View, TouchableOpacity, Button } from "react-native";
 import BottomNavBar from "@/src/components/BottomNavBar";
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
 import ExpenseItemCard from "../../components/ExpenseItemCard";
 import ExpenseItemAddEditModal from "../../components/ExpenseItemAddEditModal";
+import Toast from 'react-native-toast-message';
 
 export default function ExpenseEdit() {
     const route = useRoute()
     const userHook = useUserHook()
     const [expense, setExpense] = useState(route.params.expense)
-    const [error, setError] = useState('')
     const tailwind = useTailwind()
     const navigation = useNavigation()
 
@@ -47,6 +47,10 @@ export default function ExpenseEdit() {
                     authorization: `Bearer ${userHook.auth.token}`
                 }
             })
+            Toast.show({
+                type: 'success',
+                text1: 'Expense saved',
+            })
         } catch (err) {
             console.log(err.response)
             if (err.response.status === 401 && err.response.message === 'Invalid token') {
@@ -57,8 +61,10 @@ export default function ExpenseEdit() {
 
     async function onPressSubmitExpenseHandler() {
         if (expense.expenseItems.length === 0) {
-            setError('Cannot submit a blank expense')
-            setTimeout(() => {setError('')}, 2000)
+            Toast.show({
+                type: 'error',
+                text1: 'Cannot submit a blank response',
+            })
             return
         }
         const reqBody = {
@@ -73,7 +79,12 @@ export default function ExpenseEdit() {
                     authorization: `Bearer ${userHook.auth.token}`
                 }
             })
-            navigation.goBack()
+            Toast.show({
+                type: 'success',
+                text1: 'Expense submitted for approval',
+            })
+            setTimeout(() => navigation.goBack(), 1500)
+            
         } catch (err) {
             console.log(err.response)
             if (err.response.status === 401 && err.response.message === 'Invalid token') {
@@ -82,7 +93,7 @@ export default function ExpenseEdit() {
         }
     }
 
-    function HiddenItems({onEdit, onDelete}) {
+    function HiddenItems({onDelete}) {
         return (
             <View style={[tailwind('flex-1 flex-row items-center pl-4 mt-2 rounded-md justify-end mx-3'), {backgroundColor: '#DDD'}]}>
                 <TouchableOpacity 
@@ -115,8 +126,13 @@ export default function ExpenseEdit() {
                     </ExpenseItemAddEditModal>
                 </View>
             </View>
+            <View style={tailwind('z-10')}>
+                <Toast 
+                    visibilityTime={1000}
+                    topOffset={20}
+                />
+            </View>
             <View style={tailwind('flex-1 justify-center items-center my-1 mt-2')}>
-                {error ? <Text style={{color: '#d32f2f'}}>{error}</Text> : null}
                 <SwipeListView 
                     data={expense.expenseItems}
                     keyExtractor={(item, idx) => idx}

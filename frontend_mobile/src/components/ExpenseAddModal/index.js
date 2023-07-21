@@ -93,12 +93,10 @@ export default function ExpenseAddModal({onExpenseUpdate}) {
                                         <Text style={[tailwind('text-xs'), {color: '#d32f2f'}]}>{error}</Text>
                                     </View>
                                     }
-                                    <StyledButton label={"create"} onPress={formik.handleSubmit} style={tailwind('mt-2')}/>
+                                    <StyledButton label={"create"} onPress={formik.handleSubmit} style={tailwind('mt-4')}/>
                                 </>
                             )}
                         </Formik>
-
-                        
                     </View>
                 </View>
             </Modal>

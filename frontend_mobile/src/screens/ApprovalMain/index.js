@@ -20,6 +20,11 @@ export default function ApprovalMain() {
 
     return (
         <>
+            <View style={[tailwind('h-16 justify-center'), {backgroundColor: '#1976d2'}]}>
+                <View style={tailwind('justify-center items-center')}>
+                    <Text style={tailwind('text-xl text-white font-bold')}>Pending My Approval</Text>
+                </View>
+            </View>
             <View style={tailwind('flex-1 justify-center items-center')}>
                 <Text style={tailwind('text-lg font-medium')}>Welcome, {userHook.auth.user?.firstName} {userHook.auth.user?.lastName}, to approval main page</Text>
             </View>

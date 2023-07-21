@@ -20,9 +20,10 @@ export default function StyledDatePicker({error, helperText, style, ...otherProp
                     />
                 </View>
             </View>
-            <View style={tailwind('ml-3')}>
+            {helperText && <View style={tailwind('ml-3')}>
                 <Text style={[tailwind('text-xs'), {color: validationColor}]}>{helperText}</Text>
-            </View>
+            </View> 
+            }    
         </View>
 
     )

@@ -5,11 +5,15 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { MaterialIcons as Icon } from '@expo/vector-icons';
-import { Modal, Text, Pressable, View, TouchableOpacity} from 'react-native';
+import { Modal, Text, Pressable, View, ScrollView} from 'react-native';
 import StyledButton from '../StyledButton';
 import StyledTextInput from '../StyledTextInput';
+import StyledDropdownInput from '../StyledDropdownInput';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import StyledDatePicker from '../StyledDatePicker';
+
+
+const categories = ['meal', 'mileage', 'travel', 'accommodation', 'others']
 
 export default function ExpenseItemAddEditModal({children, expenseItem, expense, setExpense, style}) {
     const initialExpenseItem = expenseItem ? expenseItem : {
@@ -63,7 +67,6 @@ export default function ExpenseItemAddEditModal({children, expenseItem, expense,
                             <Pressable onPress={onModalCloseHandler}>
                                 <Icon name="close" size={24} color="gray" />
                             </Pressable>
-                            
                         </View>
                         <Formik
                             initialValues={initialExpenseItem}
@@ -98,13 +101,21 @@ export default function ExpenseItemAddEditModal({children, expenseItem, expense,
                                         helperText={formik.touched.description && formik.errors.description ? formik.errors.description : null}
                                         style={tailwind('mt-3')}
                                     />
-                                    <StyledTextInput
-                                        placeholder='Category *'
-                                        onChangeText={formik.handleChange('category')}
-                                        onBlur={formik.handleBlur('category')}
-                                        value={formik.values.category}
-                                        error={formik.touched.category && formik.errors.category ? true : false}
-                                        helperText={formik.touched.category && formik.errors.category ? formik.errors.category : null}
+                                    <StyledDropdownInput 
+                                        data={categories}
+                                        defaultValue={formik.values.category}
+                                        onSelect={(selectedItem, index) => {
+                                            formik.setFieldValue('category', selectedItem)
+                                        }}
+                                        buttonTextAfterSelection={(selectedItem, index) => {
+                                            return selectedItem
+                                        }}
+                                        rowTextForSelection={(item, index) => {
+                                            return item
+                                        }}
+                                        buttonStyle={tailwind('h-8 w-full bg-transparent')}
+                                        buttonTextStyle={tailwind('text-base text-left capitalize')}
+                                        rowTextStyle={tailwind('text-base capitalize')}
                                         style={tailwind('mt-3')}
                                     />
                                     <StyledDatePicker 
@@ -141,13 +152,10 @@ export default function ExpenseItemAddEditModal({children, expenseItem, expense,
                                     <StyledButton label={"Save"} onPress={formik.handleSubmit} style={tailwind('mt-2')}/>
                                 </KeyboardAwareScrollView>
                             )}
-                        </Formik>
-
-                        
+                        </Formik>  
                     </View>
                 </View>
             </Modal>
-            
        </>
     )
 }

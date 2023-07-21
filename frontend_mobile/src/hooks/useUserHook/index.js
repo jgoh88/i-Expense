@@ -143,7 +143,6 @@ export function UserProvider({children}) {
     async function removeToken() {
         try {
             await AsyncStorage.removeItem('token')
-            setTokenUpdated(true)
         } catch (err) {
             console.log(err)
         }

@@ -1,6 +1,6 @@
 import { useTailwind } from "tailwind-rn";
 
-import { Text, View, TouchableOpacity, Pressable } from "react-native";
+import { Text, View, Pressable } from "react-native";
 
 export default function ExpenseCard({data}) {
     const tailwind = useTailwind()

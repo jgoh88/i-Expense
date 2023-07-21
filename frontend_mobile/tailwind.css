@@ -1,3 +1,11 @@
+.fixed {
+  position: fixed
+}
+
+.z-10 {
+  z-index: 10
+}
+
 .m-2 {
   margin: 0.5rem
 }
@@ -229,6 +237,10 @@
   align-items: center
 }
 
+.justify-start {
+  justify-content: flex-start
+}
+
 .justify-end {
   justify-content: flex-end
 }
@@ -315,6 +327,10 @@
   background-color: rgb(244 63 94 / var(--tw-bg-opacity))
 }
 
+.bg-transparent {
+  background-color: transparent
+}
+
 .p-2 {
   padding: 0.5rem
 }
@@ -398,6 +414,10 @@
 
 .pt-40 {
   padding-top: 10rem
+}
+
+.text-left {
+  text-align: left
 }
 
 .text-center {
