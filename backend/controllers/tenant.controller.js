@@ -51,11 +51,11 @@ router.post('/', async (req, res) => {
         })
         await firstUser.save()
         const token = jwt.sign({
-            id: user._id, 
+            id: firstUser._id, 
             tenantName: req.body.tenantName,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            profileImg: user.profileImg,
+            firstName: firstUser.firstName,
+            lastName: firstUser.lastName,
+            profileImg: firstUser.profileImg,
         }, process.env.JWT_SECRET, {expiresIn: '8h'})
 
         return res.status(200).json({message: responseList.SUCCESS, token: token})

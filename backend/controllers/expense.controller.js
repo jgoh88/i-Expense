@@ -17,6 +17,18 @@ router.get('/', authenticateUser, async (req, res) => {
     }
 })
 
+router.get('/approval', authenticateUser, async (req, res) => {
+    try {
+        const customerDB = await switchCustomerDB(req.user.tenantName)
+        const ExpenseModel = await getDBModel(customerDB, 'Expense')
+        const expenses = await ExpenseModel.find({approver: req.user.id, deleted: false, status: 'submitted'})
+        return res.status(200).json({message: responseList.SUCCESS, expenses: expenses})
+    } catch (err) {
+        console.log(err)
+        return res.status(500).json({message: responseList.SOMETHING_WRONG})
+    }
+})
+
 router.get('/all', [authenticateUser, authenticateAdmin], async (req, res) => {
     try {
         const customerDB = await switchCustomerDB(req.user.tenantName)

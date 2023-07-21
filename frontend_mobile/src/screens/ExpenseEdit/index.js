@@ -70,6 +70,7 @@ export default function ExpenseEdit() {
         const reqBody = {
             id: expense._id,
             data: {
+                ...expense,
                 status: 'submitted'
             }
         }

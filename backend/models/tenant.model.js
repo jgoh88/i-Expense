@@ -4,6 +4,7 @@ const tenantSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
     },
     companyName: {
         type: String,
