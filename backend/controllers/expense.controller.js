@@ -45,7 +45,7 @@ router.post('/', authenticateUser, async (req, res) => {
             createdBy: req.user.id
         })
         newExpense.save()
-        return res.status(201).json({message: responseList.CREATED_SUCCESS})
+        return res.status(201).json({message: responseList.CREATED_SUCCESS, expense: newExpense})
     } catch (err) {
         console.log(err)
         return res.status(500).json({message: responseList.SOMETHING_WRONG})
@@ -62,7 +62,7 @@ router.put('/', authenticateUser, async (req, res) => {
         const updatedExpense = await ExpenseModel.findByIdAndUpdate(req.body.id, {
             $set: {...req.body.data}
         })
-        return res.status(200).json({message: responseList.SUCCESS})
+        return res.status(200).json({message: responseList.SUCCESS, expense: updatedExpense})
     } catch (err) {
         console.log(err)
         return res.status(500).json({message: responseList.SOMETHING_WRONG})
@@ -70,6 +70,7 @@ router.put('/', authenticateUser, async (req, res) => {
 })
 
 router.delete('/', authenticateUser, async (req, res) => {
+    console.log(req.body)
     if (!req.body || !req.body.id || !mongoose.isObjectIdOrHexString(req.body?.id)) {
         return res.status(400).json({message: responseList.BAD_REQUEST})
     }

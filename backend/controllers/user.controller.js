@@ -148,14 +148,15 @@ router.post('/login', async (req, res) => {
         if (!user.isValidPassword(req.body.password)) {
             return res.status(400).json({message: responseList.EMAIL_PASSWORD_ERROR})
         }
-        const token = jwt.sign({
+        const data = {
             id: user._id, 
             tenantName: req.body.tenantName,
             firstName: user.firstName,
             lastName: user.lastName,
             profileImg: user.profileImg,
-        }, process.env.JWT_SECRET, {expiresIn: '8h'})
-        return res.status(200).json({message: responseList.SUCCESS, token: token})
+        }
+        const token = jwt.sign(data, process.env.JWT_SECRET, {expiresIn: '8h'})
+        return res.status(200).json({message: responseList.SUCCESS, token: token, user: data})
     } catch (err) {
         console.log(err)
         return res.status(500).json({message: responseList.SOMETHING_WRONG})
