@@ -3,7 +3,7 @@ import { useTailwind } from "tailwind-rn";
 import { Text, View, TouchableOpacity } from "react-native";
 import ExpenseItemAddEditModal from "../ExpenseItemAddEditModal";
 
-export default function ExpenseItemCard({data, expense, setExpense}) {
+export default function ExpenseItemCard({data, expense, setExpense, readOnly}) {
     const tailwind = useTailwind()
 
     return (
@@ -13,6 +13,7 @@ export default function ExpenseItemCard({data, expense, setExpense}) {
             setExpense={setExpense}
             expenseItem={data}
             style={tailwind('mt-2 bg-white mx-3 rounded-md')}
+            readOnly={readOnly}
         >
             <View style={[tailwind('flex-row p-3 rounded-md'), {borderWidth: 1, borderColor: '#1976d2'}]}>
                 <View style={tailwind('justify-between flex-1')}>

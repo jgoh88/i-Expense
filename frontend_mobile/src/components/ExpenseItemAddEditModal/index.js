@@ -15,7 +15,7 @@ import StyledDatePicker from '../StyledDatePicker';
 
 const categories = ['meal', 'mileage', 'travel', 'accommodation', 'others']
 
-export default function ExpenseItemAddEditModal({children, expenseItem, expense, setExpense, style}) {
+export default function ExpenseItemAddEditModal({children, expenseItem, expense, setExpense, readOnly, style}) {
     const initialExpenseItem = expenseItem ? expenseItem : {
         description: '',
         category: '',
@@ -99,6 +99,8 @@ export default function ExpenseItemAddEditModal({children, expenseItem, expense,
                                         value={formik.values.description}
                                         error={formik.touched.description && formik.errors.description ? true : false}
                                         helperText={formik.touched.description && formik.errors.description ? formik.errors.description : null}
+                                        editable={!readOnly}
+                                        selectTextOnFocus={!readOnly}
                                         style={tailwind('mt-3')}
                                     />
                                     <StyledDropdownInput 
@@ -116,6 +118,7 @@ export default function ExpenseItemAddEditModal({children, expenseItem, expense,
                                         buttonStyle={tailwind('h-8 w-full bg-transparent')}
                                         buttonTextStyle={tailwind('text-base text-left capitalize')}
                                         rowTextStyle={tailwind('text-base capitalize')}
+                                        disabled={readOnly}
                                         style={tailwind('mt-3')}
                                     />
                                     <StyledDatePicker 
@@ -127,6 +130,7 @@ export default function ExpenseItemAddEditModal({children, expenseItem, expense,
                                         }}
                                         error={formik.touched.category && formik.errors.category ? true : false}
                                         helperText={formik.touched.category && formik.errors.category ? formik.errors.category : null}
+                                        disabled={readOnly}
                                         style={tailwind('mt-3')}
                                     />
                                     <StyledTextInput
@@ -137,19 +141,26 @@ export default function ExpenseItemAddEditModal({children, expenseItem, expense,
                                         value={`${formik.values.amount}`}
                                         error={formik.touched.amount && formik.errors.amount ? true : false}
                                         helperText={formik.touched.amount && formik.errors.amount ? formik.errors.amount : null}
+                                        editable={!readOnly}
+                                        selectTextOnFocus={!readOnly}
                                         style={tailwind('mt-3')}
                                     />
                                     <StyledTextInput
-                                        placeholder='Note'
+                                        placeholder={readOnly ? '' : 'Note'}
                                         onChangeText={formik.handleChange('note')}
                                         onBlur={formik.handleBlur('note')}
                                         value={formik.values.note}
                                         error={formik.touched.note && formik.errors.note ? true : false}
                                         helperText={formik.touched.note && formik.errors.note ? formik.errors.note : null}
                                         multiline={true}
+                                        editable={!readOnly}
+                                        selectTextOnFocus={!readOnly}
                                         style={tailwind('mt-3')}
                                     />
-                                    <StyledButton label={"Save"} onPress={formik.handleSubmit} style={tailwind('mt-2')}/>
+                                    {readOnly ? null
+                                    : <StyledButton label={"Save"} onPress={formik.handleSubmit} style={tailwind('mt-2')}/>
+                                    }
+                                    
                                 </KeyboardAwareScrollView>
                             )}
                         </Formik>  

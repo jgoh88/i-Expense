@@ -61,6 +61,7 @@ export function UserProvider({children}) {
             }
             if (!tkn) {
                 dispatch({ type: 'LOG_OUT'});
+                navigation.navigate('Login')
                 return 
             }
             try {
@@ -71,20 +72,18 @@ export function UserProvider({children}) {
                 })
                 console.log('data:', res.data)
                 console.log('status:', res.status)
-                usr = res.data.user  
+                usr = res.data.user
+                dispatch({ type: 'RESTORE_TOKEN', token: tkn, user: usr });
             } catch (err) {
                 if (err.response.status === 401 && err.response.data.message === 'Invalid token') {
                     try {
-                        await removeToken()
-                        dispatch({ type: 'LOG_OUT'});
-                        navigation.navigate('Login')
+                        signOut()
                     } catch (err) {
                         console.log(err)
                     }
                 } 
-                console.log(err)
-            }
-            dispatch({ type: 'RESTORE_TOKEN', token: tkn, user: usr });
+                console.log(err.response)
+            }  
         };
     
         verifyUser()

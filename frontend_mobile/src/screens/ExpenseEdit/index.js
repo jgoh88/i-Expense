@@ -84,7 +84,7 @@ export default function ExpenseEdit() {
                 type: 'success',
                 text1: 'Expense submitted for approval',
             })
-            setTimeout(() => navigation.goBack(), 1500)
+            setTimeout(() => navigation.navigate('ExpenseMain'), 1500)
             
         } catch (err) {
             console.log(err.response)
