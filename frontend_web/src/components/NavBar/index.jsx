@@ -44,7 +44,7 @@ export default function NavBar() {
 
     return (
         <AppBar position="sticky">
-            <Container maxWidth="xl">
+            <Container maxWidth="xl" >
                 <Toolbar disableGutters>
                 <Typography
                     variant="h6"
@@ -62,103 +62,137 @@ export default function NavBar() {
                 >
                     i-Expense
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-                    <IconButton
-                        size="large"
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        onClick={handleOpenNavMenu}
-                        color="inherit"
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorElNav}
-                        anchorOrigin={{
-                            vertical: 'bottom',
-                            horizontal: 'left',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'left',
-                        }}
-                        open={Boolean(anchorElNav)}
-                        onClose={handleCloseNavMenu}
-                        sx={{
-                            display: { xs: 'block', md: 'none' },
-                        }}
-                    >
-                        <MenuItem>
-                            <Typography textAlign="center"><Link href="/expense" color="inherit" underline="none">Expense</Link></Typography>
-                        </MenuItem>
-                        <MenuItem>
-                            <Typography textAlign="center"><Link href="/admin" color="inherit" underline="none">Admin</Link></Typography>
-                        </MenuItem>
-                    </Menu>
-                </Box>
+                {userHook?.user &&
+                    <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+                        <IconButton
+                            size="large"
+                            aria-label="account of current user"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Menu
+                            id="menu-appbar"
+                            anchorEl={anchorElNav}
+                            anchorOrigin={{
+                                vertical: 'bottom',
+                                horizontal: 'left',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'left',
+                            }}
+                            open={Boolean(anchorElNav)}
+                            onClose={handleCloseNavMenu}
+                            sx={{
+                                display: { xs: 'block', md: 'none' },
+                            }}
+                        >
+                            <MenuItem>
+                                <Typography textAlign="center"><Link href="/expense" color="inherit" underline="none">Expense</Link></Typography>
+                            </MenuItem>
+                            <MenuItem>
+                                <Typography textAlign="center"><Link href="/admin" color="inherit" underline="none">Admin</Link></Typography>
+                            </MenuItem>
+                        </Menu>
+                    </Box> 
+                }
                 <Typography
-                    variant="h5"
+                    variant="h6"
                     noWrap
                     component="a"
                     href="/"
                     sx={{
-                    mr: 2,
-                    display: { xs: 'flex', md: 'none' },
-                    flexGrow: 1,
-                    fontWeight: 700,
-                    letterSpacing: '.3rem',
-                    color: 'inherit',
-                    textDecoration: 'none',
+                        mr: 2,
+                        display: { xs: 'flex', md: 'none' },
+                        flexGrow: 1,
+                        fontWeight: 700,
+                        letterSpacing: '.3rem',
+                        color: 'inherit',
+                        textDecoration: 'none',
                     }}
                 >
                     i-Expense
                 </Typography>
-                <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-                    <Link href="/expense" color="inherit" underline="none">
-                        <Button
-                            sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                
+                {userHook?.user 
+                ? <>
+                    <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }}}>
+                        <Link href="/expense" color="inherit" underline="none">
+                            <Button
+                                sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                            >
+                                Expense
+                            </Button>
+                        </Link>
+                        <Link href="/admin" color="inherit" underline="none">
+                            <Button
+                                sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                            >
+                                Admin
+                            </Button>
+                        </Link>
+                    </Box>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <Tooltip title="Open user menu">
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <Avatar alt="Remy Sharp" src={userHook?.user?.profileImg} />
+                        </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
                         >
-                            Expense
-                        </Button>
-                    </Link>
-                    <Link href="/admin" color="inherit" underline="none">
-                        <Button
-                            sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
-                        >
-                            Admin
-                        </Button>
-                    </Link>
-                </Box>
-                <Box sx={{ flexGrow: 0 }}>
-                    <Tooltip title="Open user menu">
-                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                        <Avatar alt="Remy Sharp" src={userHook?.user?.profileImg} />
-                    </IconButton>
-                    </Tooltip>
-                    <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                            vertical: 'top',
-                            horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
-                    >
-                        <MenuItem onClick={handleCloseUserMenu}>
-                            <Typography textAlign="center" onClick={handleLogout}>Log out</Typography>
-                        </MenuItem>
-                    </Menu>
-                </Box>
+                            <MenuItem onClick={handleCloseUserMenu}>
+                                <Typography textAlign="center" onClick={handleLogout}>Log out</Typography>
+                            </MenuItem>
+                        </Menu>
+                    </Box>
+                </>
+                : <>
+                    <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, marginLeft: 'auto'}}>
+                        <Link href="/login" color="inherit" underline="none">
+                            <Button
+                                sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                            >
+                                Login
+                            </Button>
+                        </Link>
+                        <Link href="/register" color="inherit" underline="none">
+                            <Button
+                                sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                            >
+                                Register
+                            </Button>
+                        </Link>
+                    </Box>
+                    <Box sx={{ flexGrow: 0, display: { xs: 'flex', md: 'none' } }}>
+                        <Link href="/login" color="inherit" underline="none">
+                            <Button
+                                sx={{ my: 2, mx: 1, color: 'white', display: 'block' }}
+                            >
+                                Login/ Register
+                            </Button>
+                        </Link>
+                    </Box>
+                </>
+                }  
                 </Toolbar>
             </Container>
         </AppBar>
