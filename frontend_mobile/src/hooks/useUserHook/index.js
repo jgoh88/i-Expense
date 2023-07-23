@@ -70,8 +70,6 @@ export function UserProvider({children}) {
                         authorization: `Bearer ${tkn}`
                     }
                 })
-                console.log('data:', res.data)
-                console.log('status:', res.status)
                 usr = res.data.user
                 dispatch({ type: 'RESTORE_TOKEN', token: tkn, user: usr });
             } catch (err) {
