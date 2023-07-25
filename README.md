@@ -30,7 +30,7 @@ Apart from that you'll also need to have a mongoDB account and cluster. You can 
 # Clone repository
 $ git clone https://github.com/jgoh88/i-Expense.git
 
-# Install dependencies and run web application
+// # Install dependencies and run web application
 $ cd i-Expense/backend
 $ npm install   # or yarn install
 # Before starting the application, create a .env file with the required variables. Refer to .env_sample in backend folder
