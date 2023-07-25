@@ -26,11 +26,11 @@ Make sure that you have Node.js installed together with a package manager like n
 Apart from that you'll also need to have a mongoDB account and cluster. You can register for free on [mongodb.com](https://www.mongodb.com/)
 
 ### Installation
-```
+```bash
 # Clone repository
 $ git clone https://github.com/jgoh88/i-Expense.git
 
-// # Install dependencies and run web application
+# Install dependencies and run web application
 $ cd i-Expense/backend
 $ npm install   # or yarn install
 # Before starting the application, create a .env file with the required variables. Refer to .env_sample in backend folder
