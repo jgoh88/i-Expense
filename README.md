@@ -29,20 +29,30 @@ Apart from that you'll also need to have a mongoDB account and cluster. You can 
 ```bash
 # Clone repository
 $ git clone https://github.com/jgoh88/i-Expense.git
-
-# Install dependencies and run web application
+```
+Web frontend + backend
+```bash
+# Install dependencies
 $ cd i-Expense/backend
 $ npm install   # or yarn install
-# Before starting the application, create a .env file with the required variables. Refer to .env_sample in backend folder
-$ node index    # or nodemon index if you have nodemon installed. This will start the application
 
-# Install dependencies and run mobile application
+# Setup environment variables
+# Create a .env file with the required variables. Refer to .env_sample in backend folder
+
+$ node index    # or nodemon index if you have nodemon installed. This will start the application
+```
+Mobile frontend
+```bash
+# Install dependencies
 $ cd ../frontend_mobile
 $ npm install   # or yarn install
-# Before starting the application, change the baseURL to 'http://localhost:< YOUR PORT >/api' in axiosBackend.js (in src/configs)
+
+# Setup connection to backend
+# Open axiosBackend.js (in src/configs), change the baseURL to 'http://localhost:< YOUR PORT >/api'
+
 $ expo start     # or npm start also works. This will start the application
 ```
 
 ## Demo
-For the hosted application, you can refer [here](https://i-expense.onrender.com). This is only for the web part.
-Since I'm not able to host the mobile part, you'll still need to follow the installation steps for the mobile application part, with the only exception that you can skip the step to change the baseURL in axiosBackend.js.
+For demo of the application, you can refer [here](https://i-expense.onrender.com).  
+This is only for the web part, you'll still need to follow the installation steps for demo on the mobile application part, with the only exception that you can skip the step to change the baseURL in axiosBackend.js.
