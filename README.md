@@ -1,6 +1,6 @@
 # i-Expense
 ## Introduction/Overview
-The idea for this project is derived from the concept of SaaS based applications (i.e. Coupa). It is a multi tenant expense claim solution, where registered users/employees of a company can log into the system to submit their expense claims for approval and processing. This application was created within 5 days as part of my GA final project.
+The idea for this project was derived from the concept of SaaS based applications (i.e. Coupa). It is a multi tenant expense claim solution, where registered users/employees of a company can log into the system to submit their expense claims for approval and processing. This application was created within 5 days as part of my GA final project.
 
 The application is split into two parts: (1) web, and (2) mobile. The web part is for business admins while the mobile part are for expense claim submission and approval. The mobile part of the application is built using Expo.
 
