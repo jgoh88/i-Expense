@@ -9,6 +9,7 @@ Features of web part of the application:
 * Maintain users/employees of the company who will be using the application
 * Mark expense claims as paid
 ![alt text](./assets/screenshots/i-Expense_web.png "i-Expense web feature screenshots")
+
 Features of mobile part of the application:
 * Login for user
 * Create, edit and delete expenses
