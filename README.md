@@ -8,18 +8,14 @@ Features of web part of the application:
 * Register an account
 * Maintain users/employees of the company who will be using the application
 * Mark expense claims as paid
-
 ![alt text](./assets/screenshots/i-Expense_web.png "i-Expense web feature screenshots")
-
 Features of mobile part of the application:
 * Login for user
 * Create, edit and delete expenses
 * Create, edit and delete expense items
 * Save and submit expenses
 * View, approve, and reject submitted expenses
-
 ![alt text](./assets/screenshots/i-Expense_mobile.png "i-Expense mobile feature screenshots")
-
 ## Getting Started
 ### Prerequisite
 Make sure that you have Node.js installed together with a package manager like npm or yarn.
